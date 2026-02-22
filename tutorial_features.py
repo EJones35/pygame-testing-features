@@ -114,6 +114,8 @@ while running:
 					colour_mode = "light"
 				else:
 					colour_mode = "dark"
+			if event.key == pygame.K_ESCAPE:
+				sys.exit()
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			if event.button == 1: # Left click
 				if colour_mode_button is not None:
@@ -137,6 +139,7 @@ while running:
 		quit_button = draw_button_with_offset_from_corner("gray",0,300,100,50,"Quit","black",35)
 		date = draw_text_with_offset_from_corner(0,0,f"Date: {year}-{month}-{date}",35,(220,220,220))
 		time = draw_text_with_offset_from_corner(0,25,f"Time: {hour}:{minute}:{second}",35,(220,220,220))
+		help_menu = draw_text_with_offset_from_centre(screen_centre_width-150,0-screen_centre_height+100,"Space - Light/dark mode\nEscape - Quit",True,(220,220,220),35)
 	else:
 		screen.fill((245,245,240))
 		surface = draw_text_with_offset_from_centre(0,-50,greeting_message,True,(30,30,30),100)
@@ -146,6 +149,7 @@ while running:
 		quit_button = draw_button_with_offset_from_corner("dimgray",0,300,100,50,"Quit","white",35)
 		date = draw_text_with_offset_from_corner(0,0,f"Date: {year}-{month}-{date}",35,(30,30,30))
 		time = draw_text_with_offset_from_corner(0,25,f"Time: {hour}:{minute}:{second}",35,(30,30,30))
+		help_menu = draw_text_with_offset_from_centre(screen_centre_width-150,0-screen_centre_height+100,"Space - Light/dark mode\nEscape - Quit",True,(30,30,30),35)
 	
 	title = pygame.display.set_caption(f"{window_title} - {colour_mode.capitalize()} Mode")
 
