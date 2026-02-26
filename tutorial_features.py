@@ -3,7 +3,6 @@ import sys
 import random
 import pygame
 import datetime
-os.system("pip install darkdetect")
 import darkdetect
 
 os.system("cls")
@@ -32,7 +31,11 @@ greeting_message = ""
 pygame.init()
 screen = pygame.display.set_mode((screen_width,screen_height),pygame.RESIZABLE)
 clock = pygame.time.Clock()
-window_icon = pygame.image.load("C:/Users/ethan/Python/Pygame/window_icon.png")
+print(__file__)
+image_path = os.path.abspath(__file__)
+image_path = os.path.dirname(image_path)
+image_path = os.path.join(image_path, "window_icon.png")
+window_icon = pygame.image.load(image_path)
 pygame.display.set_icon(window_icon)
 
 colour_mode = darkdetect.theme().lower()
