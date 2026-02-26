@@ -13,7 +13,20 @@ screen_height = 700
 screen_centre_width = screen_width/2
 screen_centre_height = screen_height/2
 
+colours = {}
+
+light_mode_colours = {
+	"general":(30,30,30),
+	"background":(245,245,240)
+}
+
+dark_mode_colours = {
+	"general":(220,220,220),
+	"background":(20,20,20)
+}
+
 window_title = "Example Title"
+screen_title = "Example Title"
 greeting_message = ""
 
 pygame.init()
@@ -78,6 +91,20 @@ while running:
 	date = now.day
 	month = now.month
 	year = now.year
+	
+	if 0 <= hour < 6:
+		greeting_message = "It's very early..."
+	elif 6 <= hour < 12:
+		greeting_message = "Good morning!"
+	elif 12 <= hour < 13:
+		greeting_message = "Lunchtime!"
+	elif 13 <= hour < 17:
+		greeting_message = "Good afternoon!"
+	elif 17 <= hour < 20:
+		greeting_message = "Good evening!"
+	elif 20 <= hour:
+		greeting_message = "Good night!"
+
 	if hour < 10:
 		hour = "0"+str(hour)
 	if minute < 10:
@@ -89,21 +116,17 @@ while running:
 	if month < 10:
 		month = "0"+str(month)
 
-	if 0 <= hour < 6:
-		greeting_message = "It's very early..."
-	elif 6 <= hour < 12:
-		greeting_message = "Good morning!"
-	elif 12 <= hour < 13:
-		greeting_message = "Lunchtime!"
-	elif 13 <= hour < 17:
-		greeting_message = "Good afternoon!"
-	elif 17 <= hour < 20:
-		greeting_message = "Good evening!"
-	elif 20 <= hour < 0:
-		greeting_message = "Good night!"
+	if colour_mode == "light":
+		colours = light_mode_colours
+		other_colour_mode = "dark"
+	else:
+		colours = dark_mode_colours
+		other_colour_mode = "light"
 
-	screen_centre_width = screen.get_width() / 2
-	screen_centre_height = screen.get_height() / 2
+	screen_width = screen.get_width()
+	screen_height = screen.get_height()
+	screen_centre_width = screen_width / 2
+	screen_centre_height = screen_height / 2
 	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -116,6 +139,10 @@ while running:
 					colour_mode = "dark"
 			if event.key == pygame.K_ESCAPE:
 				sys.exit()
+			if event.key == pygame.K_0:
+				screen_title = "Example Title"
+			if event.key == pygame.K_1:
+				screen_title = "Main Menu"
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			if event.button == 1: # Left click
 				if colour_mode_button is not None:
@@ -130,26 +157,20 @@ while running:
 					if touching_button:
 						sys.exit()
 
-	if colour_mode == "dark":
-		screen.fill((30,30,30))
-		surface = draw_text_with_offset_from_centre(0,-50,greeting_message,True,(220,220,220),100)
-		surface = draw_text_with_offset_from_centre(0,0,"Subtitle",True,(220,220,220),50)
-		surface = draw_text_with_offset_from_centre(0,25,"Subtitle 2",True,(220,220,220),25)
-		colour_mode_button = draw_button_with_offset_from_centre("gray",0,200,200,50,"Light Mode","black",35)
+	screen.fill(colours["background"])
+	if screen_title == "Example Title":
+		surface = draw_text_with_offset_from_centre(0,-50,greeting_message,True,colours["general"],100)
+		surface = draw_text_with_offset_from_centre(0,0,"Subtitle",True,colours["general"],50)
+		surface = draw_text_with_offset_from_centre(0,25,"Subtitle 2",True,colours["general"],25)
+		colour_mode_button = draw_button_with_offset_from_centre("gray",0,200,200,50,f"{other_colour_mode.capitalize()} Mode","black",35)
 		quit_button = draw_button_with_offset_from_corner("gray",0,300,100,50,"Quit","black",35)
-		date = draw_text_with_offset_from_corner(0,0,f"Date: {year}-{month}-{date}",35,(220,220,220))
-		time = draw_text_with_offset_from_corner(0,25,f"Time: {hour}:{minute}:{second}",35,(220,220,220))
-		help_menu = draw_text_with_offset_from_centre(screen_centre_width-150,0-screen_centre_height+100,"Space - Light/dark mode\nEscape - Quit",True,(220,220,220),35)
-	else:
-		screen.fill((245,245,240))
-		surface = draw_text_with_offset_from_centre(0,-50,greeting_message,True,(30,30,30),100)
-		surface = draw_text_with_offset_from_centre(0,0,"Subtitle",True,(30,30,30),50)
-		surface = draw_text_with_offset_from_centre(0,25,"Subtitle 2",True,(30,30,30),25)
-		colour_mode_button = draw_button_with_offset_from_centre("dimgray",0,200,200,50,"Dark Mode","white",35)
-		quit_button = draw_button_with_offset_from_corner("dimgray",0,300,100,50,"Quit","white",35)
-		date = draw_text_with_offset_from_corner(0,0,f"Date: {year}-{month}-{date}",35,(30,30,30))
-		time = draw_text_with_offset_from_corner(0,25,f"Time: {hour}:{minute}:{second}",35,(30,30,30))
-		help_menu = draw_text_with_offset_from_centre(screen_centre_width-150,0-screen_centre_height+100,"Space - Light/dark mode\nEscape - Quit",True,(30,30,30),35)
+		date = draw_text_with_offset_from_corner(0,0,f"Date: {year}-{month}-{date}",35,colours["general"])
+		time = draw_text_with_offset_from_corner(0,25,f"Time: {hour}:{minute}:{second}",35,colours["general"])
+		help_menu = draw_text_with_offset_from_centre(screen_centre_width-150,0-screen_centre_height+100,"Space - Light/dark mode\nEscape - Quit\n0-1 - Change menu",True,colours["general"],35)
+	if screen_title == "Main Menu":
+		surface = draw_text_with_offset_from_centre(0,-50,greeting_message,True,colours["general"],100)
+		surface = draw_text_with_offset_from_centre(0,0,"Subtitle :)",True,colours["general"],50)
+		quit_button = draw_button_with_offset_from_corner("gray",screen_width-120,screen_height-75,100,50,"Quit","black",35)
 	
 	title = pygame.display.set_caption(f"{window_title} - {colour_mode.capitalize()} Mode")
 
