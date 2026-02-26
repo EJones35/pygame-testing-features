@@ -163,10 +163,10 @@ while running:
 		surface = draw_text_with_offset_from_centre(0,0,"Subtitle",True,colours["general"],50)
 		surface = draw_text_with_offset_from_centre(0,25,"Subtitle 2",True,colours["general"],25)
 		colour_mode_button = draw_button_with_offset_from_centre("gray",0,200,200,50,f"{other_colour_mode.capitalize()} Mode","black",35)
-		quit_button = draw_button_with_offset_from_corner("gray",0,300,100,50,"Quit","black",35)
-		date = draw_text_with_offset_from_corner(0,0,f"Date: {year}-{month}-{date}",35,colours["general"])
-		time = draw_text_with_offset_from_corner(0,25,f"Time: {hour}:{minute}:{second}",35,colours["general"])
+		date = draw_text_with_offset_from_corner(0,10,f"Date: {year}-{month}-{date}",35,colours["general"])
+		time = draw_text_with_offset_from_corner(0,35,f"Time: {hour}:{minute}:{second}",35,colours["general"])
 		help_menu = draw_text_with_offset_from_centre(screen_centre_width-150,0-screen_centre_height+100,"Space - Light/dark mode\nEscape - Quit\n0-1 - Change menu",True,colours["general"],35)
+		quit_button = draw_button_with_offset_from_corner("gray",screen_width-120,screen_height-75,100,50,"Quit","black",35)
 	if screen_title == "Main Menu":
 		surface = draw_text_with_offset_from_centre(0,-50,greeting_message,True,colours["general"],100)
 		surface = draw_text_with_offset_from_centre(0,0,"Subtitle :)",True,colours["general"],50)
