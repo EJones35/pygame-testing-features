@@ -3,6 +3,7 @@ import sys
 import random
 import pygame
 import datetime
+os.system("pip install darkdetect")
 import darkdetect
 
 os.system("cls")
@@ -29,12 +30,13 @@ screen_title = "Example Title"
 greeting_message = ""
 
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode((screen_width,screen_height),pygame.RESIZABLE)
 clock = pygame.time.Clock()
 print(__file__)
 image_path = os.path.abspath(__file__)
-image_path = os.path.dirname(image_path)
-image_path = os.path.join(image_path, "window_icon.png")
+file_dir = os.path.dirname(image_path)
+image_path = os.path.join(file_dir, "window_icon.png")
 window_icon = pygame.image.load(image_path)
 pygame.display.set_icon(window_icon)
 
@@ -85,6 +87,18 @@ def draw_button_with_offset_from_corner(colour,x_offset,y_offset,width,height,la
 	button = draw_rectangle_with_offset_from_corner(colour,x_offset,y_offset,width,height)
 	draw_text_with_offset_from_corner(x_offset,y_offset,label,text_size,text_colour)
 	return button
+
+def load_and_play_song(song,file_ending,forever):
+	song_dir_path = os.path.join(file_dir,"Songs")
+	loading_song = os.path.join(song_dir_path,song)
+	song_to_play = loading_song + file_ending
+	pygame.mixer.music.load(song_to_play)
+	if forever == True:
+		pygame.mixer.music.play(-1)
+	else:
+		pygame.mixer.music.play()
+
+load_and_play_song("Alexander Hamilton",".flac",False)
 
 while running:
 	now = datetime.datetime.now()
