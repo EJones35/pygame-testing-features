@@ -131,9 +131,6 @@ def check_touching_song_button(button_name,song,file_ending=".flac"):
 			playing_song = song
 
 while running:
-	if last_playing_song != playing_song and playing_song != None:
-		print(playing_song)
-		last_playing_song = playing_song
 	now = datetime.datetime.now()
 	hour = now.hour
 	minute = now.minute
@@ -344,3 +341,4 @@ while running:
 	title = pygame.display.set_caption(f"{window_title} - {colour_mode.capitalize()} Mode")
 
 	pygame.display.flip()
+
