@@ -43,6 +43,29 @@ pygame.display.set_icon(window_icon)
 colour_mode = darkdetect.theme().lower()
 colour_mode_button = None
 quit_button	= None
+wim_button = None
+cb1_button = None
+tab_button = None
+sntt_button = None
+trwih_button = None
+sd_button = None
+cb2_button = None
+woys_button = None
+olt_button = None
+ikh_button = None
+taa_button = None
+wk_button = None
+hu_button = None
+trp_button = None
+b_button = None
+buaa_button = None
+sar_button = None
+iqu_button = None
+teo1800_button = None
+yos_button = None
+bowabow_button = None
+twwwe_button = None
+wlwdwtys_button = None
 running = True
 
 def draw_rectangle_with_offset_from_centre(colour,offset_x,offset_y,width,height):
@@ -88,7 +111,7 @@ def draw_button_with_offset_from_corner(colour,x_offset,y_offset,width,height,la
 	draw_text_with_offset_from_corner(x_offset,y_offset,label,text_size,text_colour)
 	return button
 
-def load_and_play_song(song,file_ending,forever):
+def load_and_play_song(song,file_ending,forever=False):
 	song_dir_path = os.path.join(file_dir,"Songs")
 	loading_song = os.path.join(song_dir_path,song)
 	song_to_play = loading_song + file_ending
@@ -98,7 +121,11 @@ def load_and_play_song(song,file_ending,forever):
 	else:
 		pygame.mixer.music.play()
 
-load_and_play_song("Alexander Hamilton",".flac",False)
+def check_touching_song_button(button_name,song,file_ending=".flac"):
+	if button_name is not None:
+		touching_button = button_name.collidepoint(event.pos)
+		if touching_button:
+			load_and_play_song(song,file_ending)
 
 while running:
 	now = datetime.datetime.now()
@@ -160,6 +187,10 @@ while running:
 				screen_title = "Example Title"
 			if event.key == pygame.K_1:
 				screen_title = "Main Menu"
+			if event.key == pygame.K_2:
+				screen_title = "Songs - Page 1"
+			if event.key == pygame.K_3:
+				screen_title = "Songs - Page 2"
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			if event.button == 1: # Left click
 				if colour_mode_button is not None:
@@ -170,11 +201,72 @@ while running:
 						else:
 							colour_mode = "dark"
 				if quit_button is not None:
-					touching_button = quit_button.collidepoint(event.pos)
-					if touching_button:
+					touching_quit_button = quit_button.collidepoint(event.pos)
+					if touching_quit_button:
 						sys.exit()
+				if next_page_button is not None:
+					touching_next_page_button = next_page_button.collidepoint(event.pos)
+					if touching_next_page_button:
+						screen_title = "Songs - Page 2"
+				if previous_page_button is not None:
+					touching_previous_page_button = previous_page_button.collidepoint(event.pos)
+					if touching_previous_page_button:
+						screen_title = "Songs - Page 1"
+
+				if screen_title == "Songs - Page 1":
+					check_touching_song_button(ah_button,"Alexander Hamilton")
+					check_touching_song_button(abs_button,"Aaron Burr, Sir")
+					check_touching_song_button(ms_button,"My Shot")
+					check_touching_song_button(tsot_button,"The Story of Tonight")
+					check_touching_song_button(tss_button,"The Schuyler Sisters")
+					check_touching_song_button(fr_button,"Farmer Refuted")
+					check_touching_song_button(ybb_button,"You'll Be Back")
+					check_touching_song_button(rhm_button,"Right Hand Man")
+					check_touching_song_button(awb_button,"A Winter's Ball")
+					check_touching_song_button(h_button,"Helpless")
+					check_touching_song_button(s_button,"Satisfied")
+					check_touching_song_button(tsotr_button,"The Story of Tonight (Reprise)")
+					check_touching_song_button(wfi_button,"Wait for It")
+					check_touching_song_button(sa_button,"Stay Alive")
+					check_touching_song_button(tdc_button,"Ten Duel Commandments")
+					check_touching_song_button(mmi_button,"Meet Me Inside")
+					check_touching_song_button(twbe_button,"That Would Be Enough")
+					check_touching_song_button(gas_button,"Guns and Ships")
+					check_touching_song_button(hhieon_button,"History Has Its Eyes On You")
+					check_touching_song_button(y_button,"Yorktown (The World Turned Upside Down)")
+					check_touching_song_button(wcn_button,"What Comes Next")
+					check_touching_song_button(dt_button,"Dear Theodosia")
+					check_touching_song_button(ns_button,"Non-Stop")
+
+				if screen_title == "Songs - Page 2":
+					check_touching_song_button(wim_button,"What'd I Miss")
+					check_touching_song_button(cb1_button,"Cabinet Battle #1")
+					check_touching_song_button(tab_button,"Take a Break")
+					check_touching_song_button(sntt_button,"Say No To This")
+					check_touching_song_button(trwih_button,"The Room Where It Happens")
+					check_touching_song_button(sd_button,"Schuyler Defeated")
+					check_touching_song_button(cb2_button,"Cabinet Battle #2")
+					check_touching_song_button(woys_button,"Washington On Your Side")
+					check_touching_song_button(olt_button,"One Last Time")
+					check_touching_song_button(ikh_button,"I Know Him")
+					check_touching_song_button(taa_button,"The Adams Administration")
+					check_touching_song_button(wk_button,"We Know")
+					check_touching_song_button(hu_button,"Hurricane")
+					check_touching_song_button(trp_button,"The Reynolds Pamphlet")
+					check_touching_song_button(b_button,"Burn")
+					check_touching_song_button(buaa_button,"Blow Us All Away")
+					check_touching_song_button(sar_button,"Stay Alive (Reprise)")
+					check_touching_song_button(iqu_button,"It's Quiet Uptown")
+					check_touching_song_button(teo1800_button,"The Election of 1800")
+					check_touching_song_button(yos_button,"Your Obedient Servant")
+					check_touching_song_button(bowabow_button,"Best of Wives and Best of Women")
+					check_touching_song_button(twwwe_button,"The World Was Wide Enough")
+					check_touching_song_button(wlwdwtys_button,"Who Lives, Who Dies, Who Tells Your Story")
 
 	screen.fill(colours["background"])
+	next_page_button = None
+	previous_page_button = None
+	quit_button = draw_button_with_offset_from_corner("gray",screen_width-120,screen_height-75,100,50,"Quit","black",35)
 	if screen_title == "Example Title":
 		surface = draw_text_with_offset_from_centre(0,-50,greeting_message,True,colours["general"],100)
 		surface = draw_text_with_offset_from_centre(0,0,"Subtitle",True,colours["general"],50)
@@ -182,12 +274,67 @@ while running:
 		colour_mode_button = draw_button_with_offset_from_centre("gray",0,200,200,50,f"{other_colour_mode.capitalize()} Mode","black",35)
 		date = draw_text_with_offset_from_corner(0,10,f"Date: {year}-{month}-{date}",35,colours["general"])
 		time = draw_text_with_offset_from_corner(0,35,f"Time: {hour}:{minute}:{second}",35,colours["general"])
-		help_menu = draw_text_with_offset_from_centre(screen_centre_width-150,0-screen_centre_height+100,"Space - Light/dark mode\nEscape - Quit\n0-1 - Change menu",True,colours["general"],35)
-		quit_button = draw_button_with_offset_from_corner("gray",screen_width-120,screen_height-75,100,50,"Quit","black",35)
+		help_menu = draw_text_with_offset_from_centre(screen_centre_width-150,0-screen_centre_height+100,"Space - Light/dark mode\nEscape - Quit\n0-3 - Change menu",True,colours["general"],35)
 	if screen_title == "Main Menu":
 		surface = draw_text_with_offset_from_centre(0,-50,greeting_message,True,colours["general"],100)
 		surface = draw_text_with_offset_from_centre(0,0,"Subtitle :)",True,colours["general"],50)
-		quit_button = draw_button_with_offset_from_corner("gray",screen_width-120,screen_height-75,100,50,"Quit","black",35)
+	if screen_title == "Songs - Page 1":
+		# Column 1 (songs 1-12)
+		ah_button = draw_button_with_offset_from_corner("gray",10,30,600,50,"Alexander Hamilton","black",35)
+		abs_button = draw_button_with_offset_from_corner("gray",10,90,600,50,"Aaron Burr, Sir","black",35)
+		ms_button = draw_button_with_offset_from_corner("gray",10,150,600,50,"My Shot","black",35)
+		tsot_button = draw_button_with_offset_from_corner("gray",10,210,600,50,"The Story of Tonight","black",35)
+		tss_button = draw_button_with_offset_from_corner("gray",10,270,600,50,"The Schuyler Sisters","black",35)
+		fr_button = draw_button_with_offset_from_corner("gray",10,330,600,50,"Farmer Refuted","black",35)
+		ybb_button = draw_button_with_offset_from_corner("gray",10,390,600,50,"You'll Be Back","black",35)
+		rhm_button = draw_button_with_offset_from_corner("gray",10,450,600,50,"Right Hand Man","black",35)
+		awb_button = draw_button_with_offset_from_corner("gray",10,510,600,50,"A Winter's Ball","black",35)
+		h_button = draw_button_with_offset_from_corner("gray",10,570,600,50,"Helpless","black",35)
+		s_button = draw_button_with_offset_from_corner("gray",10,630,600,50,"Satisfied","black",35)
+		tsotr_button = draw_button_with_offset_from_corner("gray",10,690,600,50,"The Story of Tonight (Reprise)","black",35)
+		# Column 2 (songs 13-23)
+		wfi_button = draw_button_with_offset_from_corner("gray",650,30,600,50,"Wait For It","black",35)
+		sa_button = draw_button_with_offset_from_corner("gray",650,90,600,50,"Stay Alive","black",35)
+		tdc_button = draw_button_with_offset_from_corner("gray",650,150,600,50,"Ten Duel Commandments","black",35)
+		mmi_button = draw_button_with_offset_from_corner("gray",650,210,600,50,"Meet Me Inside","black",35)
+		twbe_button = draw_button_with_offset_from_corner("gray",650,270,600,50,"That Would Be Enough","black",35)
+		gas_button = draw_button_with_offset_from_corner("gray",650,330,600,50,"Guns and Ships","black",35)
+		hhieon_button = draw_button_with_offset_from_corner("gray",650,390,600,50,"History Has Its Eyes On You","black",35)
+		y_button = draw_button_with_offset_from_corner("gray",650,450,600,50,"Yorktown (The World Turned Upside Down)","black",35)
+		wcn_button = draw_button_with_offset_from_corner("gray",650,510,600,50,"What Comes Next?","black",35)
+		dt_button = draw_button_with_offset_from_corner("gray",650,570,600,50,"Dear Theodisia","black",35)
+		ns_button = draw_button_with_offset_from_corner("gray",650,630,600,50,"Non-Stop","black",35)
+
+		next_page_button = draw_button_with_offset_from_corner("gray",650,750,600,50,"Next Page ->","black",35)
+
+	if screen_title == "Songs - Page 2":
+		# Column 1 (songs 24-35)
+		wim_button = draw_button_with_offset_from_corner("gray",10,30,600,50,"What'd I Miss","black",35)
+		cb1_button = draw_button_with_offset_from_corner("gray",10,90,600,50,"Cabinet Battle #1","black",35)
+		tab_button = draw_button_with_offset_from_corner("gray",10,150,600,50,"Take A Break","black",35)
+		sntt_button = draw_button_with_offset_from_corner("gray",10,210,600,50,"Say No To This","black",35)
+		trwih_button = draw_button_with_offset_from_corner("gray",10,270,600,50,"The Room Where It Happens","black",35)
+		sd_button = draw_button_with_offset_from_corner("gray",10,330,600,50,"Schuyler Defeated","black",35)
+		cb2_button = draw_button_with_offset_from_corner("gray",10,390,600,50,"Cabinet Battle #2","black",35)
+		woys_button = draw_button_with_offset_from_corner("gray",10,450,600,50,"Washington On Your Side","black",35)
+		olt_button = draw_button_with_offset_from_corner("gray",10,510,600,50,"One Last Time","black",35)
+		ikh_button = draw_button_with_offset_from_corner("gray",10,570,600,50,"I Know Him","black",35)
+		taa_button = draw_button_with_offset_from_corner("gray",10,630,600,50,"The Adams Administration","black",35)
+		wk_button = draw_button_with_offset_from_corner("gray",10,690,600,50,"We Know","black",35)
+		# Column 2 (songs 36-46)
+		hu_button = draw_button_with_offset_from_corner("gray",650,30,600,50,"Hurricane","black",35)
+		trp_button = draw_button_with_offset_from_corner("gray",650,90,600,50,"The Reynolds Pamphlet","black",35)
+		b_button = draw_button_with_offset_from_corner("gray",650,150,600,50,"Burn","black",35)
+		buaa_button = draw_button_with_offset_from_corner("gray",650,210,600,50,"Blow Us All Away","black",35)
+		sar_button = draw_button_with_offset_from_corner("gray",650,270,600,50,"Stay Alive (Reprise)","black",35)
+		iqu_button = draw_button_with_offset_from_corner("gray",650,330,600,50,"It's Quiet Uptown","black",35)
+		teo1800_button = draw_button_with_offset_from_corner("gray",650,390,600,50,"The Election of 1800","black",35)
+		yos_button = draw_button_with_offset_from_corner("gray",650,450,600,50,"Your Obedient Servant","black",35)
+		bowabow_button = draw_button_with_offset_from_corner("gray",650,510,600,50,"Best of Wives and Best of Women","black",35)
+		twwwe_button = draw_button_with_offset_from_corner("gray",650,570,600,50,"The World Was Wide Enough","black",35)
+		wlwdwtys_button = draw_button_with_offset_from_corner("gray",650,630,600,50,"Who Lives, Who Dies, Who Tells Your Story","black",35)
+
+		previous_page_button = draw_button_with_offset_from_corner("gray",650,750,600,50,"<- Previous Page","black",35)
 	
 	title = pygame.display.set_caption(f"{window_title} - {colour_mode.capitalize()} Mode")
 
