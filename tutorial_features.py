@@ -3,7 +3,6 @@ import sys
 import random
 import pygame
 import datetime
-os.system("pip install darkdetect")
 import darkdetect
 
 os.system("cls")
@@ -66,6 +65,8 @@ yos_button = None
 bowabow_button = None
 twwwe_button = None
 wlwdwtys_button = None
+playing_song = None
+last_playing_song = None
 running = True
 
 def draw_rectangle_with_offset_from_centre(colour,offset_x,offset_y,width,height):
@@ -122,12 +123,17 @@ def load_and_play_song(song,file_ending,forever=False):
 		pygame.mixer.music.play()
 
 def check_touching_song_button(button_name,song,file_ending=".flac"):
+	global playing_song
 	if button_name is not None:
 		touching_button = button_name.collidepoint(event.pos)
 		if touching_button:
 			load_and_play_song(song,file_ending)
+			playing_song = song
 
 while running:
+	if last_playing_song != playing_song and playing_song != None:
+		print(playing_song)
+		last_playing_song = playing_song
 	now = datetime.datetime.now()
 	hour = now.hour
 	minute = now.minute
@@ -189,8 +195,6 @@ while running:
 				screen_title = "Main Menu"
 			if event.key == pygame.K_2:
 				screen_title = "Songs - Page 1"
-			if event.key == pygame.K_3:
-				screen_title = "Songs - Page 2"
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			if event.button == 1: # Left click
 				if colour_mode_button is not None:
@@ -266,10 +270,11 @@ while running:
 	screen.fill(colours["background"])
 	next_page_button = None
 	previous_page_button = None
+	colour_mode_button = None
 	quit_button = draw_button_with_offset_from_corner("gray",screen_width-120,screen_height-75,100,50,"Quit","black",35)
 	if screen_title == "Example Title":
 		surface = draw_text_with_offset_from_centre(0,-50,greeting_message,True,colours["general"],100)
-		surface = draw_text_with_offset_from_centre(0,0,"Subtitle",True,colours["general"],50)
+		surface = draw_text_with_offset_from_centre(0,0,f"Current Song: {playing_song}",True,colours["general"],50)
 		surface = draw_text_with_offset_from_centre(0,25,"Subtitle 2",True,colours["general"],25)
 		colour_mode_button = draw_button_with_offset_from_centre("gray",0,200,200,50,f"{other_colour_mode.capitalize()} Mode","black",35)
 		date = draw_text_with_offset_from_corner(0,10,f"Date: {year}-{month}-{date}",35,colours["general"])
@@ -277,7 +282,7 @@ while running:
 		help_menu = draw_text_with_offset_from_centre(screen_centre_width-150,0-screen_centre_height+100,"Space - Light/dark mode\nEscape - Quit\n0-3 - Change menu",True,colours["general"],35)
 	if screen_title == "Main Menu":
 		surface = draw_text_with_offset_from_centre(0,-50,greeting_message,True,colours["general"],100)
-		surface = draw_text_with_offset_from_centre(0,0,"Subtitle :)",True,colours["general"],50)
+		surface = draw_text_with_offset_from_centre(0,0,f"Current Song: {playing_song}",True,colours["general"],50)
 	if screen_title == "Songs - Page 1":
 		# Column 1 (songs 1-12)
 		ah_button = draw_button_with_offset_from_corner("gray",10,30,600,50,"Alexander Hamilton","black",35)
