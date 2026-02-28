@@ -66,7 +66,9 @@ bowabow_button = None
 twwwe_button = None
 wlwdwtys_button = None
 playing_song = None
-last_playing_song = None
+play_pause_button = None
+pause_state = "pause"
+text_pause_state = "No song playing"
 running = True
 
 def draw_rectangle_with_offset_from_centre(colour,offset_x,offset_y,width,height):
@@ -113,6 +115,8 @@ def draw_button_with_offset_from_corner(colour,x_offset,y_offset,width,height,la
 	return button
 
 def load_and_play_song(song,file_ending,forever=False):
+	global pause_state
+	pause_state = "play"
 	song_dir_path = os.path.join(file_dir,"Songs")
 	loading_song = os.path.join(song_dir_path,song)
 	song_to_play = loading_song + file_ending
@@ -123,7 +127,7 @@ def load_and_play_song(song,file_ending,forever=False):
 		pygame.mixer.music.play()
 
 def check_touching_song_button(button_name,song,file_ending=".flac"):
-	global playing_song
+	global playing_song, pause_state
 	if button_name is not None:
 		touching_button = button_name.collidepoint(event.pos)
 		if touching_button:
@@ -131,6 +135,14 @@ def check_touching_song_button(button_name,song,file_ending=".flac"):
 			playing_song = song
 
 while running:
+	if playing_song == None:
+		text_pause_state = "No song playing"
+	else:
+		if pause_state == "play":
+			text_pause_state = "pause"
+		else:
+			text_pause_state = "play"
+
 	now = datetime.datetime.now()
 	hour = now.hour
 	minute = now.minute
@@ -192,6 +204,14 @@ while running:
 				screen_title = "Main Menu"
 			if event.key == pygame.K_2:
 				screen_title = "Songs - Page 1"
+			if event.key == pygame.K_p:
+				if pause_state == "play":
+					pause_state = "pause"
+					pygame.mixer.music.pause()
+				else:
+					pause_state = "play"
+					pygame.mixer.music.unpause()
+
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			if event.button == 1: # Left click
 				if colour_mode_button is not None:
@@ -213,6 +233,22 @@ while running:
 					touching_previous_page_button = previous_page_button.collidepoint(event.pos)
 					if touching_previous_page_button:
 						screen_title = "Songs - Page 1"
+				if play_pause_button is not None:
+					touching_play_pause_button = play_pause_button.collidepoint(event.pos)
+					if touching_play_pause_button:
+						if playing_song == None:
+							text_pause_state = "No song playing"
+						else:
+							if pause_state == "play":
+								text_pause_state = "pause"
+							else:
+								text_pause_state = "play"
+							if pause_state == "play":
+								pause_state = "pause"
+								pygame.mixer.music.pause()
+							else:
+								pause_state = "play"
+								pygame.mixer.music.unpause()
 
 				if screen_title == "Songs - Page 1":
 					check_touching_song_button(ah_button,"Alexander Hamilton")
@@ -308,6 +344,7 @@ while running:
 		ns_button = draw_button_with_offset_from_corner("gray",650,630,600,50,"Non-Stop","black",35)
 
 		next_page_button = draw_button_with_offset_from_corner("gray",650,750,600,50,"Next Page ->","black",35)
+		play_pause_button = draw_button_with_offset_from_corner("gray",10,750,600,50,text_pause_state.capitalize(),"black",35)
 
 	if screen_title == "Songs - Page 2":
 		# Column 1 (songs 24-35)
@@ -336,9 +373,9 @@ while running:
 		twwwe_button = draw_button_with_offset_from_corner("gray",650,570,600,50,"The World Was Wide Enough","black",35)
 		wlwdwtys_button = draw_button_with_offset_from_corner("gray",650,630,600,50,"Who Lives, Who Dies, Who Tells Your Story","black",35)
 
+		play_pause_button = draw_button_with_offset_from_corner("gray",10,750,600,50,text_pause_state.capitalize(),"black",35)
 		previous_page_button = draw_button_with_offset_from_corner("gray",650,750,600,50,"<- Previous Page","black",35)
 	
 	title = pygame.display.set_caption(f"{window_title} - {colour_mode.capitalize()} Mode")
 
 	pygame.display.flip()
-
