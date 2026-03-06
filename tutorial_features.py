@@ -32,9 +32,10 @@ pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((screen_width,screen_height),pygame.RESIZABLE)
 clock = pygame.time.Clock()
-print(__file__)
-image_path = os.path.abspath(__file__)
-file_dir = os.path.dirname(image_path)
+if hasattr(sys, "_MEIPASS"):
+    file_dir = sys._MEIPASS
+else:
+    file_dir = os.path.dirname(os.path.abspath(__file__))
 image_path = os.path.join(file_dir, "window_icon.png")
 window_icon = pygame.image.load(image_path)
 pygame.display.set_icon(window_icon)
@@ -65,8 +66,15 @@ yos_button = None
 bowabow_button = None
 twwwe_button = None
 wlwdwtys_button = None
+
 playing_song = None
 play_pause_button = None
+
+ppom_button = None
+jo_button = None
+mi_button = None
+eot_button = None
+
 pause_state = "pause"
 text_pause_state = "No song playing"
 running = True
@@ -125,6 +133,7 @@ def load_and_play_song(song,file_ending,forever=False):
 		pygame.mixer.music.play(-1)
 	else:
 		pygame.mixer.music.play()
+	print(f"Playing {song}{file_ending}")
 
 def check_touching_song_button(button_name,song,file_ending=".flac"):
 	global playing_song, pause_state
@@ -228,11 +237,17 @@ while running:
 				if next_page_button is not None:
 					touching_next_page_button = next_page_button.collidepoint(event.pos)
 					if touching_next_page_button:
-						screen_title = "Songs - Page 2"
+						if screen_title == "Songs - Page 1":
+							screen_title = "Songs - Page 2"
+						elif screen_title == "Songs - Page 2":
+							screen_title = "Songs - Page 3"
 				if previous_page_button is not None:
 					touching_previous_page_button = previous_page_button.collidepoint(event.pos)
 					if touching_previous_page_button:
-						screen_title = "Songs - Page 1"
+						if screen_title == "Songs - Page 3":
+							screen_title = "Songs - Page 2"
+						elif screen_title == "Songs - Page 2":
+							screen_title = "Songs - Page 1"
 				if play_pause_button is not None:
 					touching_play_pause_button = play_pause_button.collidepoint(event.pos)
 					if touching_play_pause_button:
@@ -299,6 +314,11 @@ while running:
 					check_touching_song_button(bowabow_button,"Best of Wives and Best of Women")
 					check_touching_song_button(twwwe_button,"The World Was Wide Enough")
 					check_touching_song_button(wlwdwtys_button,"Who Lives, Who Dies, Who Tells Your Story")
+				if screen_title == "Songs - Page 3":
+					check_touching_song_button(ppom_button,"Phantom Peak Overworld Music",".mp3")
+					check_touching_song_button(jo_button,"Jonaco Oath",".ogg")
+					check_touching_song_button(mi_button,"Monstermon Intro",".ogg")
+					check_touching_song_button(eot_button,"Eggs Of Truth",".ogg")
 
 	screen.fill(colours["background"])
 	next_page_button = None
@@ -312,7 +332,7 @@ while running:
 		colour_mode_button = draw_button_with_offset_from_centre("gray",0,200,200,50,f"{other_colour_mode.capitalize()} Mode","black",35)
 		date = draw_text_with_offset_from_corner(0,10,f"Date: {year}-{month}-{date}",35,colours["general"])
 		time = draw_text_with_offset_from_corner(0,35,f"Time: {hour}:{minute}:{second}",35,colours["general"])
-		help_menu = draw_text_with_offset_from_centre(screen_centre_width-150,0-screen_centre_height+100,"Space - Light/dark mode\nEscape - Quit\n0-3 - Change menu",True,colours["general"],35)
+		help_menu = draw_text_with_offset_from_centre(screen_centre_width-150,0-screen_centre_height+100,"Space - Light/dark mode\nEscape - Quit\n0-2 - Change menu",True,colours["general"],35)
 	if screen_title == "Main Menu":
 		surface = draw_text_with_offset_from_centre(0,-50,greeting_message,True,colours["general"],100)
 		surface = draw_text_with_offset_from_centre(0,0,f"Current Song: {playing_song}",True,colours["general"],50)
@@ -343,7 +363,7 @@ while running:
 		dt_button = draw_button_with_offset_from_corner("gray",650,570,600,50,"Dear Theodisia","black",35)
 		ns_button = draw_button_with_offset_from_corner("gray",650,630,600,50,"Non-Stop","black",35)
 
-		next_page_button = draw_button_with_offset_from_corner("gray",650,750,600,50,"Next Page ->","black",35)
+		next_page_button = draw_button_with_offset_from_corner("gray",650,690,600,50,"Next Page ->","black",35)
 		play_pause_button = draw_button_with_offset_from_corner("gray",10,750,600,50,text_pause_state.capitalize(),"black",35)
 
 	if screen_title == "Songs - Page 2":
@@ -373,6 +393,15 @@ while running:
 		twwwe_button = draw_button_with_offset_from_corner("gray",650,570,600,50,"The World Was Wide Enough","black",35)
 		wlwdwtys_button = draw_button_with_offset_from_corner("gray",650,630,600,50,"Who Lives, Who Dies, Who Tells Your Story","black",35)
 
+		next_page_button = draw_button_with_offset_from_corner("gray",650,690,600,50,"Next Page ->","black",35)
+		play_pause_button = draw_button_with_offset_from_corner("gray",10,750,600,50,text_pause_state.capitalize(),"black",35)
+		previous_page_button = draw_button_with_offset_from_corner("gray",650,750,600,50,"<- Previous Page","black",35)
+
+	if screen_title == "Songs - Page 3":
+		ppom_button = draw_button_with_offset_from_corner("gray",10,30,600,50,"Overworld Music","black",35)
+		jo_button = draw_button_with_offset_from_corner("gray",10,90,600,50,"Jonaco Oath","black",35)
+		mi_button = draw_button_with_offset_from_corner("gray",650,30,600,50,"Monstermon Intro","black",35)
+		eot_button = draw_button_with_offset_from_corner("gray",650,90,600,50,"Eggs of Truth","black",35)
 		play_pause_button = draw_button_with_offset_from_corner("gray",10,750,600,50,text_pause_state.capitalize(),"black",35)
 		previous_page_button = draw_button_with_offset_from_corner("gray",650,750,600,50,"<- Previous Page","black",35)
 	
